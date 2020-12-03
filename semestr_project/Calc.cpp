@@ -45,44 +45,106 @@ void calc::push_back(string newElem) // add in the end
 void calc::read_expression() { // read formula
 	bool cont = true;
 	string added;
+	int bracket = 0;
 
 	if (!head) {
 		cin >> added;
+		push_back(added);
 		size = 1;
-		add_first(added);
-		if (added[added.length() - 1] == '/n') {
+		if (added.length() == 1) {
+			if (added == "(") {
+				tail->expression = static_cast<Node::Type>(16); 
+				tail->order = static_cast<Node::Priopity>(0);
+				bracket++;
+			}
+			if (added == ")") {
+				tail->expression = static_cast<Node::Type>(16);
+				tail->order = static_cast<Node::Priopity>(0);
+				bracket--;
+			}
+		}
+		if (added[added.length() - 1] == ';') {
+			cont = false;
+			tail->data.erase(added.length() - 1, 1);
+		}
+		check_type(added);
+		if (tail->expression == static_cast<Node::Type>(0)) {
+			// incorrect input
+			cout << endl << "Incorrect input. Can not identify expression." << endl;
 			cont = false;
 		}
 	}
 
 	while (cont) {
 		cin >> added;
+		if (added.length() == 1) {
+			if (added == "(") {
+				tail->expression = static_cast<Node::Type>(16);
+				tail->order = static_cast<Node::Priopity>(0);
+				bracket++;
+			}
+			if (added == ")") {
+				tail->expression = static_cast<Node::Type>(16);
+				tail->order = static_cast<Node::Priopity>(0);
+				bracket--;
+			}
+		}
 		push_back(added);
 		size++;
-		if (added[added.length() - 1] == '/n') {
-			cont = false;
+		check_type(added);
+		if (tail->expression == static_cast<Node::Type>(0)) {
+			// incorrect input
+			cout << endl << "Incorrect input. Can not identify expression." << endl;
+			break;
 		}
+		if (added[added.length() - 1] == ';') {
+			cont = false;
+			tail->data.erase(added.length() - 1, 1);
+		}
+	}
+	if (bracket == 0) {
+		// incorrect input
+		cout << "Incorrect input: wrong bracket amount" << endl;
 	}
 }
 
-void calc::check_type(){
-	string str = tail->data;
-	bool type[15] = { false };
-	if (str.length() == 1) { // it should be only a sign
-		if (str == "+") tail->expression = static_cast<Node::Type>(1);
-		if (str == "-") tail->expression = static_cast<Node::Type>(2);
-		if (str == "*") tail->expression = static_cast<Node::Type>(3);
-		if (str == "/") tail->expression = static_cast<Node::Type>(4);
-		if (str == "^") tail->expression = static_cast<Node::Type>(5);
+void calc::check_type(string str) {
+	if (str.length() == 1) { // it could be only a sign or a bracket
+		if (str == "+") { tail->expression = static_cast<Node::Type>(1); tail->order = static_cast<Node::Priopity>(1); }
+		if (str == "-") { tail->expression = static_cast<Node::Type>(2); tail->order = static_cast<Node::Priopity>(1); }
+		if (str == "*") { tail->expression = static_cast<Node::Type>(3); tail->order = static_cast<Node::Priopity>(2); }
+		if (str == "/") { tail->expression = static_cast<Node::Type>(4); tail->order = static_cast<Node::Priopity>(2); }
+		if (str == "^") { tail->expression = static_cast<Node::Type>(5); tail->order = static_cast<Node::Priopity>(3); }
 	}
-	else if ((str[0] == 's') && (str[1] == 'i') && (str[2] == 'n')) tail->expression = static_cast<Node::Type>(6);
-	else if ((str[0] == 'c') && (str[1] == 'o') && (str[2] == 's')) tail->expression = static_cast<Node::Type>(7);
-	else if ((str[0] == 't') && (str[1] == 'g')) tail->expression = static_cast<Node::Type>(8);
-	else if ((str[0] == 'c') && (str[1] == 't') && (str[2] == 'g')) tail->expression = static_cast<Node::Type>(9);
-	else if ((str[0] == 'l') && (str[1] == 'n')) tail->expression = static_cast<Node::Type>(10);
-	else if ((str[0] == 'l') && (str[1] == 'g')) tail->expression = static_cast<Node::Type>(11);
-	else if ((str[0] == 's') && (str[1] == 'q') && (str[2] == 'r') && (str[3] == 't')) tail->expression = static_cast<Node::Type>(12);
-	else if ((str[0] == 'c') && (str[1] == 'u') && (str[2] == 'b') && (str[3] == 'e') && (str[4] == 'r')) tail->expression = static_cast<Node::Type>(13);
+	else if ((str[0] == 's') && (str[1] == 'i') && (str[2] == 'n')) { tail->expression = static_cast<Node::Type>(6); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 'c') && (str[1] == 'o') && (str[2] == 's')) { tail->expression = static_cast<Node::Type>(7); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 't') && (str[1] == 'g')) { tail->expression = static_cast<Node::Type>(8); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 'c') && (str[1] == 't') && (str[2] == 'g')) { tail->expression = static_cast<Node::Type>(9); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 'l') && (str[1] == 'n')) { tail->expression = static_cast<Node::Type>(10); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 'l') && (str[1] == 'g')) { tail->expression = static_cast<Node::Type>(11); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 's') && (str[1] == 'q') && (str[2] == 'r') && (str[3] == 't')) { tail->expression = static_cast<Node::Type>(12); tail->order = static_cast<Node::Priopity>(-1); }
+	else if ((str[0] == 'c') && (str[1] == 'u') && (str[2] == 'b') && (str[3] == 'e') && (str[4] == 'r')) { tail->expression = static_cast<Node::Type>(13); tail->order = static_cast<Node::Priopity>(-1); }
+	else {
+		bool dot = false, number = false, incorrect = false;
+		for (int i = 0; i < str.length(); i++) {
+			number = ((str[i] == '0') || (str[i] == '1') || (str[i] == '2') || (str[i] == '3') || (str[i] == '4') || (str[i] == '5') || (str[i] == '6') ||
+				(str[i] == '7') || (str[i] == '8') || (str[i] == '9'));
+			if (!dot) dot = str[i] == '.'; // if prev symbols were not dots, check for dot
+			if ((!number) || (!dot)) { // if str[i] is a letter, bracket or smth else
+				incorrect = true;
+				tail->expression = static_cast<Node::Type>(0);
+				break;
+			}
+		}
+		if (number && dot) {
+			tail->expression = static_cast<Node::Type>(15);
+			tail->order = static_cast<Node::Priopity>(-1);
+		}
+		else if (number && !dot) {
+			tail->expression = static_cast<Node::Type>(14);
+			tail->order = static_cast<Node::Priopity>(-1);
+		}
+	}
 }
 
 void calc::push_front(string newElem) // add in the beginning
@@ -207,20 +269,20 @@ size_t calc::get_size() const
 	return size;
 }
 
-//void calc::print_to_console()
-//{
-//	cout << "Size is " << size << endl;
-//	if (size != 0) {
-//		Node* tmp = head;
-//		do {
-//			cout << tmp->data << endl;
-//			tmp = tmp->next;
-//		} while (tmp->next);
-//		cout << tmp->data << endl;
-//		cout << "....." << endl;
-//	}
-//	else cout << "nothing to print" << endl;
-//}
+void calc::print_to_console()
+{
+	cout << "Size is " << size << endl;
+	if (size != 0) {
+		Node* tmp = head;
+		do {
+			cout << tmp->data << " ";
+			tmp = tmp->next;
+		} while (tmp->next);
+		if(tmp) cout << tmp->data << endl;
+		cout << "....." << endl;
+	}
+	else cout << "nothing to print" << endl;
+}
 
 void calc::clear()
 {

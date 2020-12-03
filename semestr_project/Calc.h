@@ -1,6 +1,9 @@
 #pragma once
+#include"Stack.h"
 #include <string>
 #include <iostream>
+#include<cmath>
+
 using namespace std;
 
 class calc
@@ -29,26 +32,38 @@ private:
 			cuber, // qube root, quber()
 			int_number, // 123
 			double_number, // 123.456
+			bracket,
+		};
+
+		enum class Priopity {
+			operands = -1,
+			brackets = 0,
+			plus = 1, minus = 1,
+			multiply = 2, divide = 2,
+			raise = 2,
 		};
 
 		Node(string data, Node* next = nullptr, Node* prev = nullptr) {
 			this->data = data;
+			this->res = 0;
 			this->next = next;
 			this->prev = prev;
-			//this->expression = undef;
+			this->expression = static_cast<Node::Type>(0);
+			this->order = static_cast<Node::Priopity>(-1);
 		};
 		~Node() {};
 
 		string data;
+		double res;
 		Node* next;
 		Node* prev;
 		Type expression;
+		Priopity order;
 	};
 
 	Node* head;
 	Node* tail;
 	size_t size;
-	int brackets;
 
 public:
 
@@ -56,7 +71,7 @@ public:
 	~calc();
 
 	void read_expression();
-	void check_type();
+	void check_type(string str);
 	void push_back(string newElem);
 	void push_front(string newElem);
 	void pop_back();
@@ -65,7 +80,7 @@ public:
 	string at(size_t index) const;
 	void remove(int index);
 	size_t get_size() const;
-	//void print_to_console();
+	void print_to_console();
 	void clear();
 	void set(int index, string newElem);
 	bool isEmpty();
