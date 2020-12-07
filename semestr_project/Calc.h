@@ -33,10 +33,11 @@ private:
 			int_number, // 123
 			double_number, // 123.456
 			bracket,
+			pi, eps,
 		};
 
 		enum class Priopity {
-			operands = -1,
+			operands = 10,
 			brackets = 0,
 			plus = 1, minus = 1,
 			multiply = 2, divide = 2,
@@ -61,8 +62,8 @@ private:
 		Priopity order;
 	};
 
-	Node* head;
-	Node* tail;
+	Node* inf_head;
+	Node* inf_tail;
 	size_t size;
 
 public:
