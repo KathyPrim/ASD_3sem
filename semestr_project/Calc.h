@@ -1,5 +1,4 @@
 #pragma once
-#include"Stack.h"
 #include <string>
 #include <iostream>
 #include<cmath>
@@ -9,9 +8,6 @@ using namespace std;
 class calc
 {
 private:
-	void add_first(string newElem);
-	void reset_list();
-
 	class Node
 	{
 	public:
@@ -37,16 +33,17 @@ private:
 		};
 
 		enum class Priopity {
+			undef = -1,
 			operands = 10,
 			brackets = 0,
 			plus = 1, minus = 1,
 			multiply = 2, divide = 2,
-			raise = 2,
+			raise = 3,
 		};
 
-		Node(string data, Node* next = nullptr, Node* prev = nullptr) {
+		Node(string data, double res, Type expression, Priopity order, Node* next = nullptr, Node* prev = nullptr) {
 			this->data = data;
-			this->res = 0;
+			this->res = res;
 			this->next = next;
 			this->prev = prev;
 			this->expression = static_cast<Node::Type>(0);
@@ -62,8 +59,12 @@ private:
 		Priopity order;
 	};
 
-	Node* inf_head;
-	Node* inf_tail;
+	void add_first(string newElem, double res, Node::Priopity order, Node::Type exp);
+	void reset_list();
+
+	Node* head;
+	Node* tail;
+
 	size_t size;
 
 public:
@@ -73,17 +74,18 @@ public:
 
 	void read_expression();
 	void check_type(string str);
-	void push_back(string newElem);
-	void push_front(string newElem);
+	void push_back(string newElem, double res, Node::Priopity order, Node::Type exp);
+	void push_front(string newElem, double res, Node::Priopity order, Node::Type exp);
+	void print_to_console();
+	void clear();
+	void inf_to_pref();
 	void pop_back();
-	void pop_front();
+	bool isEmpty();
+	/*void pop_front();
 	void insert(string newElem, int index);
 	string at(size_t index) const;
 	void remove(int index);
 	size_t get_size() const;
-	void print_to_console();
-	void clear();
 	void set(int index, string newElem);
-	bool isEmpty();
-	void insert(calc newList, int index);
+	void insert(calc newList, int index);*/
 };
