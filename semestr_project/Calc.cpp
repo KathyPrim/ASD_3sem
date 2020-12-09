@@ -24,7 +24,7 @@ calc::~calc() {
 
 void calc::add_first(string newElem, double res, Node::Priopity order, Node::Type exp)
 {
-	head = new Node(newElem, res, order, exp);
+	head = new Node(newElem, res, exp, order);
 	tail = head;
 }
 
@@ -176,50 +176,47 @@ void calc::check_type(string str) {
 	else if ((str[0] == 'p') && (str[1] == 'i')) { 
 		tail->expression = static_cast<Node::Type>(17); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
+		tail->res = pi;
 	}
 	else if ((str[0] == 'e') && (str[1] == 'p') && (str[2] == 's')) { 
 		tail->expression = static_cast<Node::Type>(18); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
+		tail->res = e;
 	}
 	else if ((str[0] == 's') && (str[1] == 'i') && (str[2] == 'n')) { 
 		tail->expression = static_cast<Node::Type>(6); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
 	else if ((str[0] == 'c') && (str[1] == 'o') && (str[2] == 's')) { 
 		tail->expression = static_cast<Node::Type>(7); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
 	else if ((str[0] == 't') && (str[1] == 'g')) { 
 		tail->expression = static_cast<Node::Type>(8); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
 	else if ((str[0] == 'c') && (str[1] == 't') && (str[2] == 'g')) { 
 		tail->expression = static_cast<Node::Type>(9); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
 	else if ((str[0] == 'l') && (str[1] == 'n')) { 
 		tail->expression = static_cast<Node::Type>(10); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
 	else if ((str[0] == 'l') && (str[1] == 'g')) { 
 		tail->expression = static_cast<Node::Type>(11); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
 	else if ((str[0] == 's') && (str[1] == 'q') && (str[2] == 'r') && (str[3] == 't')) { 
 		tail->expression = static_cast<Node::Type>(12); 
 		tail->order = static_cast<Node::Priopity>(10); 
-	
 	}
-	else if ((str[0] == 'c') && (str[1] == 'u') && (str[2] == 'b') && (str[3] == 'e') && (str[4] == 'r')) { tail->expression = static_cast<Node::Type>(13); tail->order = static_cast<Node::Priopity>(10); }
-	else { // chiselco
+	else if ((str[0] == 'c') && (str[1] == 'u') && (str[2] == 'b') && (str[3] == 'e') && (str[4] == 'r')) { 
+	tail->expression = static_cast<Node::Type>(13); 
+	tail->order = static_cast<Node::Priopity>(10);
+	}
+	else // chiselco
+	{ 
 		bool dot = false, number = false, incorrect = false, minus = (str[0] =='-');
 		if (minus) {
 			str.erase(0, 1); // delele minus before checking
@@ -237,7 +234,6 @@ void calc::check_type(string str) {
 		if (number && dot) {
 			tail->expression = static_cast<Node::Type>(15);
 			tail->order = static_cast<Node::Priopity>(10);
-			// double lol = atof(word.c_str());
 			tail->res = atof(tail->data.c_str());
 		}
 		else if (number && !dot) {
@@ -296,29 +292,27 @@ void calc::inf_to_pref(){
 					top->pop_back();
 				}
 			}
+			break;
 		case calc::Node::Priopity::plus:
 		//case calc::Node::Priopity::minus:
 			if ((int)top->tail->order >= (int)calc::Node::Priopity::plus) {
-				while ((int)top->tail->order >= (int)calc::Node::Priopity::raise) {
+				while ((int)top->tail->order >= (int)calc::Node::Priopity::plus) {
 					res->push_front(work->data, work->res, work->order, work->expression);
 					top->pop_back();
 				}
-
 			}
 			else push_back(work->data, work->res, work->order, work->expression);
-			break;
 			break;
 		case calc::Node::Priopity::multiply:
 		//case calc::Node::Priopity::divide:
 			if ((int)top->tail->order >= (int)calc::Node::Priopity::multiply) {
-				while ((int)top->tail->order >= (int)calc::Node::Priopity::raise) {
+				while ((int)top->tail->order >= (int)calc::Node::Priopity::multiply) {
 					res->push_front(work->data, work->res, work->order, work->expression);
 					top->pop_back();
 				}
 
 			}
 			else push_back(work->data, work->res, work->order, work->expression);
-			break;
 			break;
 		case calc::Node::Priopity::raise:
 			if ((int)top->tail->order >= (int)calc::Node::Priopity::raise) {

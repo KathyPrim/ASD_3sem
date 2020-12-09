@@ -5,6 +5,9 @@
 
 using namespace std;
 
+double pi = 3.14159265358979323846;
+double e = 2.71828182845904523536;
+
 class calc
 {
 private:
