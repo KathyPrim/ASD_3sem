@@ -2,11 +2,9 @@
 #include <string>
 #include <iostream>
 #include<cmath>
+#include"Stack.h"
 
 using namespace std;
-
-double pi = 3.14159265358979323846;
-double e = 2.71828182845904523536;
 
 class calc
 {
@@ -32,7 +30,6 @@ private:
 			int_number, // 123
 			double_number, // 123.456
 			bracket,
-			pi, eps,
 		};
 
 		enum class Priopity {
@@ -42,6 +39,7 @@ private:
 			plus = 1, minus = 1,
 			multiply = 2, divide = 2,
 			raise = 3,
+			func = 4,
 		};
 
 		Node(string data, double res, Type expression, Priopity order, Node* next = nullptr, Node* prev = nullptr) {
@@ -49,8 +47,8 @@ private:
 			this->res = res;
 			this->next = next;
 			this->prev = prev;
-			this->expression = static_cast<Node::Type>(0);
-			this->order = static_cast<Node::Priopity>(-1);
+			this->expression = expression;
+			this->order = order;
 		};
 		~Node() {};
 
@@ -84,6 +82,7 @@ public:
 	void inf_to_pref();
 	void pop_back();
 	bool isEmpty();
+	double count();
 	/*void pop_front();
 	void insert(string newElem, int index);
 	string at(size_t index) const;

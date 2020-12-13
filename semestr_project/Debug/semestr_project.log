@@ -1,6 +1,2 @@
 ﻿  Calc.cpp
-C:\Users\User\source\repos\3sem\ASD\semestr_project\semestr_project\Calc.cpp(137,12): warning C4018: >: несоответствие типов со знаком и без знака
-C:\Users\User\source\repos\3sem\ASD\semestr_project\semestr_project\Calc.cpp(182,12): warning C4018: >: несоответствие типов со знаком и без знака
-C:\Users\User\source\repos\3sem\ASD\semestr_project\semestr_project\Calc.cpp(238,12): warning C4018: >: несоответствие типов со знаком и без знака
-C:\Users\User\source\repos\3sem\ASD\semestr_project\semestr_project\Calc.cpp(260,12): warning C4018: >: несоответствие типов со знаком и без знака
   semestr_project.vcxproj -> C:\Users\User\source\repos\3sem\ASD\semestr_project\Debug\semestr_project.exe
