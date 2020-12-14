@@ -393,46 +393,40 @@ double calc::count(){
 		}
 		else if ((int)tmp->order == 4) {
 			if (!top->isEmpty()) {
+				double first = top->return_last();
+				top->pop_back();
 				switch ((int)tmp->expression)
 				{
 				case 6: { // sin
-					top->push_back(sin(top->return_last()));
-					top->pop_back();
+					top->push_back(sin(first));
 					break;
 				}
 				case 7: { // cos
-					top->push_back(cos(top->return_last()));
-					top->pop_back();
+					top->push_back(cos(first));
 					break;
 				}
 				case 8: { //tg
-					top->push_back(tan(top->return_last()));
-					top->pop_back();
+					top->push_back(tan(first));
 					break;
 				}
 				case 9: { //ctg
-					top->push_back(1 / tan(top->return_last()));
-					top->pop_back();
+					top->push_back(1 / tan(first));
 					break;
 				}
 				case 10: { // ln
-					top->push_back(log(top->return_last()));
-					top->pop_back();
+					top->push_back(log(first));
 					break;
 				}
 				case 11: { // lg
 					top->push_back(log10(top->return_last()));
-					top->pop_back();
 					break;
 				}
 				case 12: { // sqrt
-					top->push_back(sqrt(top->return_last()));
-					top->pop_back();
+					top->push_back(sqrt(first));
 					break;
 				}
 				case 13: { // cuber
-					top->push_back(cbrt(top->return_last()));
-					top->pop_back();
+					top->push_back(cbrt(first));
 					break;
 				}
 				}
