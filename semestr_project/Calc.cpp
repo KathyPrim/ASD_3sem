@@ -105,6 +105,7 @@ void calc::read_expression() { // read formula
 			// incorrect input
 			cout << endl << "Incorrect input. Can not identify expression." << endl;
 			cont = false;
+			return;
 		}
 	}
 
@@ -121,12 +122,13 @@ void calc::read_expression() { // read formula
 		if (tail->expression == static_cast<Node::Type>(0)) {
 			// incorrect input
 			cout << endl << "Incorrect input. Can not identify expression." << endl;
-			break;
+			return;
 		}
 	}
 	if (bracket != 0) {
 		// incorrect input
 		cout << "Incorrect input: wrong bracket amount" << endl;
+		return;
 	}
 }
 
