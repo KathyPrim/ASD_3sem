@@ -36,7 +36,7 @@ bool calc::isEmpty()
 	return (head == nullptr);
 }
 
-void calc::push_back(string newElem, double res, Node::Priopity order, Node::Type exp) // add in the end
+void calc::push_back(string newElem, double res, Node::Priopity order = Node::Priopity::undef, Node::Type exp = Node::Type::undef) // add in the end
 {
 	if (size == 0) {
 		add_first(newElem, res, order, exp);
@@ -225,7 +225,7 @@ void calc::check_type(string str) {
 			number = ((str[i] == '0') || (str[i] == '1') || (str[i] == '2') || (str[i] == '3') || (str[i] == '4') || (str[i] == '5') || (str[i] == '6') ||
 				(str[i] == '7') || (str[i] == '8') || (str[i] == '9'));
 			if (!dot) dot = str[i] == '.'; // if prev symbols were not dots, check for dot
-			if ((!number) || (!dot)) { // if str[i] is a letter, bracket or smth else
+			if ((!number) && (!dot)) { // if str[i] is a letter, bracket or smth else
 				incorrect = true;
 				tail->expression = static_cast<Node::Type>(0);
 				break;
@@ -572,6 +572,11 @@ double calc::count(){
 	}
 
 	return top->return_last(); // when counting is over, on the top of chiselco stack is the result
+}
+
+string calc::return_data()
+{
+	return tail->data;
 }
 
 //

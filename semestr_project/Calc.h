@@ -83,6 +83,7 @@ public:
 	void pop_back();
 	bool isEmpty();
 	double count();
+	string return_data();
 	/*void pop_front();
 	void insert(string newElem, int index);
 	string at(size_t index) const;
