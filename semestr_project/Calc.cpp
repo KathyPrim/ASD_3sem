@@ -562,6 +562,10 @@ double calc::count(){
 			top->push_back((first / second));
 			break;
 		}
+		case 5: {
+			top->push_back(pow(first, second));
+			break;
+		}
 		}
 	}
 
